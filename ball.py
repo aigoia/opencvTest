@@ -10,9 +10,6 @@ class Ball:
         self.speed_x = speed_x
         self.speed_y = speed_y
 
-        self.screen_width = screen_width
-        self.screen_height = screen_height
-
         self.player_score = 0
         self.enemy_score = 0
 
@@ -22,15 +19,17 @@ class Ball:
         self.handle_wall_collision()
 
     def handle_wall_collision(self):
-        if self.y - self.radius <= 0 or self.y + self.radius >= self.screen_height:
+        if self.y - self.radius <= 0 or self.y + self.radius >= screen_height:
             self.speed_y = self.speed_y * -1
+        if self.x - self.radius <= 0 or self.x + self.radius >= screen_width:
+            self.speed_x = self.speed_x * -1
 
     def check_out_of_bounds(self):
         if self.x < 0:
             self.reset()
             self.player_score = self.player_score + 1
             return True
-        elif self.x > self.screen_width:
+        elif self.x > screen_width:
             self.reset()
             self.enemy_score = self.enemy_score + 1
             return True
@@ -46,10 +45,10 @@ class Ball:
         positions_y = list(filter(lambda i: i != 2, positions_y)) + [2]
         print("Start positions:", positions_y)
 
-        positions_y = [y * self.screen_height // 4 for y in positions_y]
+        positions_y = [y * screen_height // 4 for y in positions_y]
 
         self.y = random.choice(positions_y)
-        self.x = self.screen_width // 2
+        self.x = screen_width // 2
         self.speed_x = self.speed_x * -1
 
     def draw(self, scene):
