@@ -1,59 +1,47 @@
 import cv2 as opencv
-import numpy 
+import numpy
+from setting import *
 
-# Constants
-WIDTH, HEIGHT = 800, 600
-PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
-BALL_RADIUS = 15
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+# Ball and Paddle Initialization
+ball_pos = [screen_width // 2, screen_height // 2]
+ball_velocity = [ball_speed, ball_speed]
 
-# Key settings
-key_esc = 27  # ESC key
+player_pos = screen_height // 2 - paddle_height // 2
+cpu_pos = screen_height // 2 - paddle_height // 2
 
-def main():
-    ball_pos = [WIDTH // 2, HEIGHT // 2]
-    player1_pos = HEIGHT // 2 - PADDLE_HEIGHT // 2
-    player2_pos = HEIGHT // 2 - PADDLE_HEIGHT // 2
-    paddle_speed = 10
-    score1, score2 = 0, 0
+opencv.namedWindow(game_name, opencv.WINDOW_GUI_NORMAL)
+opencv.resizeWindow(game_name, screen_width, screen_height)
 
-    # Create window
-    opencv.namedWindow("Pong", opencv.WINDOW_GUI_NORMAL)
+while True:
+    frame = numpy.zeros((screen_height, screen_width, 3), dtype=numpy.uint8)
+    frame = numpy.full((screen_height, screen_width, 3), Mint, dtype=numpy.uint8)
 
-    while True:
-        # Create a blank frame
-        frame = numpy.zeros((HEIGHT, WIDTH, 3), dtype=numpy.uint8)
+    # Draw paddles
+    opencv.rectangle(frame, (paddle_margin, player_pos), 
+                     (paddle_margin + paddle_width, player_pos + paddle_height), Snow, -1)
+    opencv.rectangle(frame, (screen_width - paddle_margin - paddle_width, cpu_pos), 
+                     (screen_width - paddle_margin, cpu_pos + paddle_height), Snow, -1)
 
-        # Draw paddles and ball
-        opencv.rectangle(frame, (20, player1_pos), (20 + PADDLE_WIDTH, player1_pos + PADDLE_HEIGHT), WHITE, -1)
-        opencv.rectangle(frame, (WIDTH - 20 - PADDLE_WIDTH, player2_pos), (WIDTH - 20, player2_pos + PADDLE_HEIGHT), WHITE, -1)
-        opencv.circle(frame, tuple(ball_pos), BALL_RADIUS, WHITE, -1)
+    # Draw ball
+    opencv.circle(frame, tuple(ball_pos), ball_size, Gold, -1)
 
-        # Draw scores
-        font = opencv.FONT_HERSHEY_SIMPLEX
-        opencv.putText(frame, f"{score1}", (WIDTH // 4, 50), font, 1.5, WHITE, 2)
-        opencv.putText(frame, f"{score2}", (3 * WIDTH // 4, 50), font, 1.5, WHITE, 2)
+    # Display scores
+    font = opencv.FONT_HERSHEY_SIMPLEX
+    opencv.putText(frame, "0", (screen_width // 4 - score_size // 4, score_margin * 4), font, 1.5, Snow, 2)
+    opencv.putText(frame, "0", (3 * screen_width // 4 - score_size // 4, score_margin * 4), font, 1.5, Snow, 2)
 
-        # Handle key events
-        key = opencv.waitKey(1) & 0xFF
-        if key == ord('w') and player1_pos > 0:
-            player1_pos -= paddle_speed
-        if key == ord('s') and player1_pos < HEIGHT - PADDLE_HEIGHT:
-            player1_pos += paddle_speed
-        if key == ord('o') and player2_pos > 0:
-            player2_pos -= paddle_speed
-        if key == ord('l') and player2_pos < HEIGHT - PADDLE_HEIGHT:
-            player2_pos += paddle_speed
-        
-        # Exit on ESC key
-        if key == key_esc:  
-            break
+    key = opencv.waitKey(1) & 0xFF
+    if key == ord('w') and player_pos > 0:
+        player_pos -= player_speed
+    if key == ord('s') and player_pos < screen_height - paddle_height:
+        player_pos += player_speed
+    if key == ord('o') and cpu_pos > 0:
+        cpu_pos -= player_speed
+    if key == ord('l') and cpu_pos < screen_height - paddle_height:
+        cpu_pos += player_speed
+    if key == 27:  # ESC key
+        break
 
-        # Display frame
-        opencv.imshow("Pong", frame)
+    opencv.imshow(game_name, frame)
 
-    opencv.destroyAllWindows()
-
-if __name__ == "__main__":
-    main()
+opencv.destroyAllWindows()
