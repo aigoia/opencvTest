@@ -21,16 +21,12 @@ def update_game(key):
 
 def draw_game():
     # Create scene background
-    scene = numpy.full((screen_height, screen_width, 3), MINT, dtype=numpy.uint8)
-    
-    # Draw center line
+    scene = numpy.full((screen_height, screen_width, 3), MINT, dtype=numpy.uint8) # uint8 is 0 ~ 255
     opencv.line(scene, (screen_width // 2, 0), (screen_width // 2, screen_height), SNOW, 2)
     
-    # Draw paddles
+    # Draw objects
     player_paddle.draw(scene, SNOW)
     enemy_paddle.draw(scene, SNOW)
-
-    # Draw ball
     ball.draw(scene)
 
     # Display scores
@@ -53,7 +49,7 @@ def main():
             break
 
         opencv.imshow(game_name, scene)
-
+        
     opencv.destroyAllWindows()
 
 if __name__ == "__main__":
