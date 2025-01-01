@@ -1,56 +1,59 @@
-import cv2
+import cv2 as opencv
 import numpy 
 
-# 화면 크기
+# Constants
 WIDTH, HEIGHT = 800, 600
-
-# 패들과 공의 초기 속성
 PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
 BALL_RADIUS = 15
-
-# 색상 정의 (BGR 형식)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-# 초기 위치와 속도
-ball_pos = [WIDTH // 2, HEIGHT // 2]
-ball_velocity = [4, 4]
+# Key settings
+key_esc = 27  # ESC key
 
-player1_pos = HEIGHT // 2 - PADDLE_HEIGHT // 2
-player2_pos = HEIGHT // 2 - PADDLE_HEIGHT // 2
-paddle_speed = 10
+def main():
+    ball_pos = [WIDTH // 2, HEIGHT // 2]
+    player1_pos = HEIGHT // 2 - PADDLE_HEIGHT // 2
+    player2_pos = HEIGHT // 2 - PADDLE_HEIGHT // 2
+    paddle_speed = 10
+    score1, score2 = 0, 0
 
-# 점수
-score1, score2 = 0, 0
+    # Create window
+    opencv.namedWindow("Pong", opencv.WINDOW_GUI_NORMAL)
 
-# OpenCV 윈도우 초기화
-cv2.namedWindow("Pong Game")
+    while True:
+        # Create a blank frame
+        frame = numpy.zeros((HEIGHT, WIDTH, 3), dtype=numpy.uint8)
 
-while True:
-    frame = numpy.zeros((HEIGHT, WIDTH, 3), dtype=numpy.uint8)
+        # Draw paddles and ball
+        opencv.rectangle(frame, (20, player1_pos), (20 + PADDLE_WIDTH, player1_pos + PADDLE_HEIGHT), WHITE, -1)
+        opencv.rectangle(frame, (WIDTH - 20 - PADDLE_WIDTH, player2_pos), (WIDTH - 20, player2_pos + PADDLE_HEIGHT), WHITE, -1)
+        opencv.circle(frame, tuple(ball_pos), BALL_RADIUS, WHITE, -1)
 
-    cv2.rectangle(frame, (20, player1_pos), (20 + PADDLE_WIDTH, player1_pos + PADDLE_HEIGHT), WHITE, -1)
-    cv2.rectangle(frame, (WIDTH - 20 - PADDLE_WIDTH, player2_pos), (WIDTH - 20, player2_pos + PADDLE_HEIGHT), WHITE, -1)
+        # Draw scores
+        font = opencv.FONT_HERSHEY_SIMPLEX
+        opencv.putText(frame, f"{score1}", (WIDTH // 4, 50), font, 1.5, WHITE, 2)
+        opencv.putText(frame, f"{score2}", (3 * WIDTH // 4, 50), font, 1.5, WHITE, 2)
 
-    cv2.circle(frame, tuple(ball_pos), BALL_RADIUS, WHITE, -1)
+        # Handle key events
+        key = opencv.waitKey(1) & 0xFF
+        if key == ord('w') and player1_pos > 0:
+            player1_pos -= paddle_speed
+        if key == ord('s') and player1_pos < HEIGHT - PADDLE_HEIGHT:
+            player1_pos += paddle_speed
+        if key == ord('o') and player2_pos > 0:
+            player2_pos -= paddle_speed
+        if key == ord('l') and player2_pos < HEIGHT - PADDLE_HEIGHT:
+            player2_pos += paddle_speed
+        
+        # Exit on ESC key
+        if key == key_esc:  
+            break
 
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    cv2.putText(frame, f"{score1}", (WIDTH // 4, 50), font, 1.5, WHITE, 2)
-    cv2.putText(frame, f"{score2}", (3 * WIDTH // 4, 50), font, 1.5, WHITE, 2)
+        # Display frame
+        opencv.imshow("Pong", frame)
 
-    key = cv2.waitKey(1) & 0xFF
-    if key == ord('w') and player1_pos > 0:
-        player1_pos -= paddle_speed
-    if key == ord('s') and player1_pos < HEIGHT - PADDLE_HEIGHT:
-        player1_pos += paddle_speed
-    if key == ord('o') and player2_pos > 0:
-        player2_pos -= paddle_speed
-    if key == ord('l') and player2_pos < HEIGHT - PADDLE_HEIGHT:
-        player2_pos += paddle_speed
-    if key == ord('q'):  # 'q' key is exit
-        break
+    opencv.destroyAllWindows()
 
-    cv2.imshow("Pong Game", frame)
-
-
-cv2.destroyAllWindows()
+if __name__ == "__main__":
+    main()
