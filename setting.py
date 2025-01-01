@@ -1,19 +1,21 @@
 # Game settings
 game_name = "Pong"
+delay = 16
 screen_width = 1200
 screen_height = 800
 count_time = 0.3
 init_count = 3
 
 # Key codes
-ESC_KEY = 27
-UP_KEY = ord('o')
-DOWN_KEY =  ord('l')
+KEY_MASK = 0xFF
+KEY_ESC = 27
+KEY_UP = ord('i')
+KEY_DOWN =  ord('k')
 
 # Colors RGB → BGR
-Mint = (204, 209, 72)    
-Gold = (0, 215, 255)     
-Snow = (240, 255, 255)   
+MINT = (204, 209, 72)    
+GOLD = (0, 215, 255)     
+SNOW = (240, 255, 255)   
 
 # Margins
 paddle_margin = 10
