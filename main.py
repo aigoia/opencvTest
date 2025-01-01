@@ -27,7 +27,10 @@ def draw_game():
     """Draws the current game state on the screen."""
     # Create scene background
     scene = numpy.full((screen_height, screen_width, 3), Mint, dtype=numpy.uint8)
-
+    
+    # Draw line
+    opencv.line(scene, (screen_width // 2, 0), (screen_width // 2, screen_height), Snow, 2)
+    
     # Draw paddles
     opencv.rectangle(scene, (screen_width - paddle_margin - paddle_width, player_pos),
                      (screen_width - paddle_margin, player_pos + paddle_height), Snow, -1)
