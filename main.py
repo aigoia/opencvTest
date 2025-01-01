@@ -1,13 +1,10 @@
 import cv2 as opencv
 import numpy
-from paddle import Paddle
 from setting import *
+from paddle import Paddle
+from ball import Ball
 
-# Ball Initialization
-ball_pos = [screen_width // 2, screen_height // 2]
-ball_velocity = [ball_speed, ball_speed]
-
-# Paddle Initialization
+ball = Ball(screen_width // 2, screen_height // 2, ball_size, ball_speed, ball_speed)
 player_paddle = Paddle(screen_width - paddle_margin - paddle_width, 
                        screen_height, paddle_width, paddle_height, 
                        player_speed, paddle_margin)
@@ -34,7 +31,7 @@ def draw_game():
     enemy_paddle.draw(scene, SNOW)
 
     # Draw ball
-    opencv.circle(scene, tuple(ball_pos), ball_size, GOLD, -1)
+    ball.draw(scene)
 
     # Display scores
     font = opencv.FONT_HERSHEY_SIMPLEX
