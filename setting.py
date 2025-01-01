@@ -6,7 +6,9 @@ count_time = 0.3
 init_count = 3
 
 # Key codes
-ESC_KEY = 27  
+ESC_KEY = 27
+UP_KEY = ord('o')
+DOWN_KEY =  ord('l')
 
 # Colors
 Mint = (204, 209, 72)    # RGB (72, 209, 204) → BGR

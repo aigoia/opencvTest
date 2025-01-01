@@ -2,6 +2,7 @@ import cv2 as opencv
 import numpy
 from setting import *
 
+# Ball and Paddle Initialization
 ball_pos = [screen_width // 2, screen_height // 2]
 ball_velocity = [ball_speed, ball_speed]
 
@@ -9,32 +10,29 @@ player_pos = screen_height // 2 - paddle_height // 2
 enemy_pos = screen_height // 2 - paddle_height // 2
 
 def init_game():
+    """Initializes the game window and other settings."""
     opencv.namedWindow(game_name, opencv.WINDOW_GUI_NORMAL)
     opencv.resizeWindow(game_name, screen_width, screen_height)
 
-
 def update_game(key):
+    """Updates the game state based on player input."""
     global player_pos, enemy_pos
 
-    if key == ord('w') and player_pos > 0:
+    if key == UP_KEY and player_pos > 0:
         player_pos -= player_speed
-    if key == ord('s') and player_pos < screen_height - paddle_height:
+    if key == DOWN_KEY and player_pos < screen_height - paddle_height:
         player_pos += player_speed
-    if key == ord('o') and enemy_pos > 0:
-        enemy_pos -= player_speed
-    if key == ord('l') and enemy_pos < screen_height - paddle_height:
-        enemy_pos += player_speed
-
 
 def draw_game():
+    """Draws the current game state on the screen."""
     # Create scene background
     scene = numpy.full((screen_height, screen_width, 3), Mint, dtype=numpy.uint8)
 
     # Draw paddles
-    opencv.rectangle(scene, (paddle_margin, player_pos),
-                     (paddle_margin + paddle_width, player_pos + paddle_height), Snow, -1)
-    opencv.rectangle(scene, (screen_width - paddle_margin - paddle_width, enemy_pos),
-                     (screen_width - paddle_margin, enemy_pos + paddle_height), Snow, -1)
+    opencv.rectangle(scene, (screen_width - paddle_margin - paddle_width, player_pos),
+                     (screen_width - paddle_margin, player_pos + paddle_height), Snow, -1)
+    opencv.rectangle(scene, (paddle_margin, enemy_pos),
+                     (paddle_margin + paddle_width, enemy_pos + paddle_height), Snow, -1)
 
     # Draw ball
     opencv.circle(scene, tuple(ball_pos), ball_size, Gold, -1)
@@ -46,23 +44,27 @@ def draw_game():
 
     return scene
 
-
 def main():
+    """Main game loop."""
     init_game()
 
     while True:
         key = opencv.waitKey(1) & 0xFF
 
+        # Update game state
         update_game(key)
+
+        # Draw the game
         scene = draw_game()
 
+        # Exit condition
         if key == ESC_KEY:
             break
 
+        # Display the game
         opencv.imshow(game_name, scene)
 
     opencv.destroyAllWindows()
-
 
 if __name__ == "__main__":
     main()
