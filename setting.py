@@ -1,10 +1,12 @@
 # Game settings
 game_name = "Pong"
-frame = 60
 screen_width = 1200
 screen_height = 800
 count_time = 0.3
 init_count = 3
+
+# Key codes
+ESC_KEY = 27  
 
 # Colors
 Mint = (204, 209, 72)    # RGB (72, 209, 204) → BGR
