@@ -10,10 +10,10 @@ ESC_KEY = 27
 UP_KEY = ord('o')
 DOWN_KEY =  ord('l')
 
-# Colors
-Mint = (204, 209, 72)    # RGB (72, 209, 204) → BGR
-Gold = (0, 215, 255)     # RGB (255, 215, 0) → BGR
-Snow = (240, 255, 255)   # RGB (255, 255, 240) → BGR
+# Colors RGB → BGR
+Mint = (204, 209, 72)    
+Gold = (0, 215, 255)     
+Snow = (240, 255, 255)   
 
 # Margins
 paddle_margin = 10
