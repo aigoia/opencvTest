@@ -9,11 +9,13 @@ class Paddle:
         self.height = height
         self.speed = speed
 
-    def move(self, key):
-        if key == KEY_UP and self.y > 0:
-            self.y -= self.speed
-        if key == KEY_DOWN and self.y < screen_height - self.height:
-            self.y += self.speed
+    def move_up(self):
+        if self.y > 0:
+            self.y = self.y - self.speed
+            
+    def move_down(self):
+        if self.y < screen_height - self.height:
+            self.y = self.x + self.speed
     
     def update(self):
         pass

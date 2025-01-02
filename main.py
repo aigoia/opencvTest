@@ -1,9 +1,12 @@
 import cv2 as opencv
 import numpy
+from pynput.keyboard import Key, Listener  
 from setting import *
 from paddle import Paddle
 from enemy_paddle import EnemyPaddle
 from ball import Ball
+
+out = False
 
 ball = Ball(screen_width // 2, screen_height // 2, ball_size, ball_speed, ball_speed)
 player = Paddle(screen_width - paddle_width - paddle_margin, (screen_height - paddle_height) // 2, paddle_width, paddle_height, player_speed)
@@ -14,7 +17,7 @@ def init_game():
     opencv.resizeWindow(game_name, screen_width, screen_height)
 
 def update_game(key):
-    player.move(key)
+    # player.move(key)
     enemy.update(ball.y)
     ball.update()
 
@@ -35,20 +38,36 @@ def draw_game():
 
     return scene
 
+def on_press(key):  
+    if key == Key.up:
+        player.move_up  
+        print("Up arrow key pressed")
+    if key == Key.down:
+        player.move_down
+        print(player.y)  
+        print("Down arrow key pressed") 
+    
+    if key == Key:
+        out = True
+
 def main():
     init_game()
+    
+    with Listener(on_press=on_press) as listener:
+        while True:
+            key = opencv.waitKey(delay)
 
-    while True:
-        key = opencv.waitKey(delay) & KEY_MASK
+            update_game(key)
+            scene = draw_game()
 
-        update_game(key)
-        scene = draw_game()
+            if key == KEY_ESC:
+                break
+            
+            if out == True:
+                break
 
-        if key == KEY_ESC:
-            break
-
-        opencv.imshow(game_name, scene)
-        
+            opencv.imshow(game_name, scene)
+    
     opencv.destroyAllWindows()
 
 if __name__ == "__main__":
