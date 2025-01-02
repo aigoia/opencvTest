@@ -1,12 +1,15 @@
 import cv2 as opencv
 import asyncio
 import numpy
+import sys
 from pynput.keyboard import Key, Listener  
 from setting import *
 from paddle import Paddle
 from enemy_paddle import EnemyPaddle
 from ball import Ball
 from helper import *
+
+init_done = False
 
 key_out = False
 key_up = False
@@ -20,25 +23,26 @@ def init_game():
     opencv.namedWindow(game_name, opencv.WINDOW_GUI_NORMAL)
     opencv.resizeWindow(game_name, screen_width, screen_height)
     
-    font = opencv.FONT_HERSHEY_SIMPLEX
-    text_list = ["3", "2", "1"]
-    text_size = opencv.getTextSize(text_list[0], font, 1, 2)[0]
-    text_x = screen_width // 2 - text_size[0] // 2
-    text_y = screen_height // 2 + text_size[1] // 2
-
+    pause_game()
+    global init_done
+    init_done = True
     
+    
+def pause_game():
     while True:
         key = opencv.waitKey(delay) & KEY_MASK
-        scene = draw_pause(font, text_list, text_x, text_y)
+        scene = draw_pause()
         
-        if key == KEY_ESC:
+        if key == KEY_SPACE or key == KEY_ENTER:
             break
+        if key == KEY_ESC:
+            sys.exit()
 
         opencv.imshow(game_name, scene)
     
 def check_game():    
     if  ball.check_out_of_bounds():
-        # await countdown()
+        pause_game()
         pass
 
 def update_game():
@@ -58,10 +62,17 @@ def update_game():
                                         (enemy.x, enemy.y, enemy.width, enemy.height)):
         ball.speed_x = ball.speed_x * -1
 
-
-def draw_pause(font, text_list, text_x, text_y):
+def draw_pause():
     # Create scene background
     scene = numpy.full((screen_height, screen_width, 3), SNOW, dtype=numpy.uint8) # uint8 is 0 ~ 255
+    
+    font = opencv.FONT_HERSHEY_SIMPLEX
+    opencv.putText(scene, pause_string, (screen_width // 2 - score_margin * 4, screen_height // 2 - score_margin // 2), font, 1.5, MINT, 2)
+
+    global init_done
+    if init_done:
+        opencv.putText(scene, str(ball.player_score), (screen_width // 4 - score_size // 4, score_margin * 4), font, 1.5, MINT, 2)
+        opencv.putText(scene, str(ball.enemy_score), (3 * screen_width // 4 - score_size // 4, score_margin * 4), font, 1.5, MINT, 2)
     
     return scene
 
@@ -101,11 +112,12 @@ async def main():
             scene = draw_game()
             
             if key == KEY_ESC:
-                break
+                sys.exit()
 
             opencv.imshow(game_name, scene)
     
     opencv.destroyAllWindows()
+    sys.exit()
 
 if __name__ == "__main__":
     asyncio.run(main())
