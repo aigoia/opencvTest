@@ -10,8 +10,6 @@ from ball import Ball
 from helper import *
 
 init_done = False
-
-key_out = False
 key_up = False
 key_down = False
 
@@ -26,7 +24,6 @@ def init_game():
     pause_game()
     global init_done
     init_done = True
-    
     
 def pause_game():
     while True:
@@ -116,7 +113,6 @@ async def main():
 
             opencv.imshow(game_name, scene)
     
-    opencv.destroyAllWindows()
     sys.exit()
 
 if __name__ == "__main__":
