@@ -20,6 +20,16 @@ def init_game():
     opencv.namedWindow(game_name, opencv.WINDOW_GUI_NORMAL)
     opencv.resizeWindow(game_name, screen_width, screen_height)
     
+    with Listener(on_press=on_press) as listener:
+        while True:
+            key = opencv.waitKey(delay) & KEY_MASK
+            scene = draw_pause()
+            
+            if key == KEY_ESC:
+                break
+
+            opencv.imshow(game_name, scene)
+    
 def check_game():    
     if  ball.check_out_of_bounds():
         # await countdown()
@@ -41,6 +51,20 @@ def update_game():
     if check_collision_circle_rectangle((ball.x, ball.y), ball.radius,
                                         (enemy.x, enemy.y, enemy.width, enemy.height)):
         ball.speed_x = ball.speed_x * -1
+
+
+def draw_pause():
+    # Create scene background
+    scene = numpy.full((screen_height, screen_width, 3), SNOW, dtype=numpy.uint8) # uint8 is 0 ~ 255
+    
+    font = opencv.FONT_HERSHEY_SIMPLEX
+    text = "3"  # You can update this to a dynamic value
+    text_size = opencv.getTextSize(text, font, 1, 2)[0]
+    text_x = screen_width // 2 - text_size[0] // 2
+    text_y = screen_height // 2 + text_size[1] // 2
+    opencv.putText(scene, text, (text_x, text_y), font, 1, MINT, 2, opencv.LINE_AA)
+    
+    return scene
 
 def draw_game():
     # Create scene background
