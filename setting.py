@@ -1,6 +1,6 @@
 # Game settings
 game_name = "Pong"
-delay = 1
+delay = 16
 screen_width = 1200
 screen_height = 800
 count_time = 0.3
