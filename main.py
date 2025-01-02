@@ -6,6 +6,7 @@ from setting import *
 from paddle import Paddle
 from enemy_paddle import EnemyPaddle
 from ball import Ball
+from helper import *
 
 key_out = False
 key_up = False
@@ -27,6 +28,13 @@ def update_game():
 
     enemy.update(ball.y)
     ball.update()
+    
+    if check_collision_circle_rectangle((ball.x, ball.y), ball.radius,
+                                        (player.x, player.y, player.width, player.height)):
+        ball.speed_x = ball.speed_x * -1
+    if check_collision_circle_rectangle((ball.x, ball.y), ball.radius,
+                                        (enemy.x, enemy.y, enemy.width, enemy.height)):
+        ball.speed_x = ball.speed_x * -1
 
 def draw_game():
     # Create scene background
