@@ -60,3 +60,7 @@ Install numpy:
 Install pynput:
 
     pip install pynput
+
+### Run
+
+    python3 main.py
