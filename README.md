@@ -65,4 +65,4 @@ Install pynput:
 
     python3 main.py
 
-# Press ESC is EXIT
+# Press ESC it'll be EXIT
