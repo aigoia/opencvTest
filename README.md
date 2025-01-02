@@ -11,18 +11,18 @@
 
 ### Installation Steps
 
-    Install opencv-python:
+Install opencv-python:
 
     pip install opencv-python
 
-    Install asyncio:
+Install asyncio:
 
     pip install asyncio
 
-    Install numpy:
+Install numpy:
 
     pip install numpy
 
-    Install pynput:
+Install pynput:
 
     pip install pynput
