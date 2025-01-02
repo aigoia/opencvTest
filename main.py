@@ -48,7 +48,6 @@ def draw_game():
 def on_press(key):
     global key_up
     global key_down  
-    global key_out
     
     key_up = key == Key.up
     key_down = key == Key.down
