@@ -64,3 +64,5 @@ Install pynput:
 ### Run
 
     python3 main.py
+
+# Press ESC is EXIT
