@@ -47,7 +47,8 @@ def on_press(key):
         print(player.y)  
         print("Down arrow key pressed") 
     
-    if key == Key:
+    if key == Key.esc:
+        global out
         out = True
 
 def main():
@@ -59,9 +60,6 @@ def main():
 
             update_game(key)
             scene = draw_game()
-
-            if key == KEY_ESC:
-                break
             
             if out == True:
                 break
