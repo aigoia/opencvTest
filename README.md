@@ -1,5 +1,7 @@
 # Opencv
 
+[Pong](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbtyZ9b%2FbtsLCqFO1Va%2FcF0oh3aeUoWFui3kjBAyq0%2Fimg.png)
+
 ## Installation Guide
 
 ### Creating a Virtual Environment
