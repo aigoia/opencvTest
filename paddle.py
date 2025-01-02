@@ -15,7 +15,7 @@ class Paddle:
             
     def move_down(self):
         if self.y < screen_height - self.height:
-            self.y = self.x + self.speed
+            self.y = self.y + self.speed
     
     def update(self):
         pass

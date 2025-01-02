@@ -6,7 +6,9 @@ from paddle import Paddle
 from enemy_paddle import EnemyPaddle
 from ball import Ball
 
-out = False
+key_out = False
+key_up = False
+key_down = False
 
 ball = Ball(screen_width // 2, screen_height // 2, ball_size, ball_speed, ball_speed)
 player = Paddle(screen_width - paddle_width - paddle_margin, (screen_height - paddle_height) // 2, paddle_width, paddle_height, player_speed)
@@ -16,8 +18,13 @@ def init_game():
     opencv.namedWindow(game_name, opencv.WINDOW_GUI_NORMAL)
     opencv.resizeWindow(game_name, screen_width, screen_height)
 
-def update_game(key):
-    # player.move(key)
+def update_game():
+    if (key_up == True):
+        player.move_up 
+        print(player.y)
+    if (key_down == True):
+        player.move_down
+        print(player.y)
     enemy.update(ball.y)
     ball.update()
 
@@ -38,18 +45,15 @@ def draw_game():
 
     return scene
 
-def on_press(key):  
-    if key == Key.up:
-        player.move_up  
-        print("Up arrow key pressed")
-    if key == Key.down:
-        player.move_down
-        print(player.y)  
-        print("Down arrow key pressed") 
+def on_press(key):
+    global key_up
+    global key_down  
+    global key_out
     
-    if key == Key.esc:
-        global out
-        out = True
+    key_up = key == Key.up
+    key_down = key == key_down 
+        
+    key_out = key  == Key.esc
 
 def main():
     init_game()
@@ -58,10 +62,10 @@ def main():
         while True:
             key = opencv.waitKey(delay)
 
-            update_game(key)
+            update_game()
             scene = draw_game()
             
-            if out == True:
+            if key_out == True:
                 break
 
             opencv.imshow(game_name, scene)

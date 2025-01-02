@@ -9,8 +9,6 @@ init_count = 3
 # Key codes
 KEY_MASK = 0xFF
 KEY_ESC = 27
-KEY_UP = ord('i')
-KEY_DOWN =  ord('k')
 
 # Colors RGB → BGR
 MINT = (204, 209, 72)    
