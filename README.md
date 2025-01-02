@@ -10,7 +10,7 @@ Run the following command to create a virtual environment:
 
     python -m venv <virtual_env_name>
 
-    Replace <virtual_env_name> with your desired environment name, e.g., opencv_env.
+Replace <virtual_env_name> with your desired environment name, e.g., opencv_env.
 
 Example:
 
