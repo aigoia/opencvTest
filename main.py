@@ -21,11 +21,11 @@ def init_game():
     opencv.namedWindow(game_name, opencv.WINDOW_GUI_NORMAL)
     opencv.resizeWindow(game_name, screen_width, screen_height)
     
-    pause_game()
+    pause_scene()
     global init_done
     init_done = True
     
-def pause_game():
+def pause_scene():
     while True:
         key = opencv.waitKey(delay) & KEY_MASK
         scene = draw_pause()
@@ -39,7 +39,7 @@ def pause_game():
     
 def check_game():    
     if  ball.check_out_of_bounds():
-        pause_game()
+        pause_scene()
         pass
 
 def update_game():
@@ -101,6 +101,7 @@ def on_press(key):
 async def main():
     init_game()
     
+    # Game loop
     with Listener(on_press=on_press) as listener:
         while True:
             key = opencv.waitKey(delay) & KEY_MASK
