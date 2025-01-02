@@ -19,6 +19,11 @@ enemy = EnemyPaddle(paddle_margin, (screen_height - paddle_height) // 2, paddle_
 def init_game():
     opencv.namedWindow(game_name, opencv.WINDOW_GUI_NORMAL)
     opencv.resizeWindow(game_name, screen_width, screen_height)
+    
+def check_game():    
+    if  ball.check_out_of_bounds():
+        # await countdown()
+        pass
 
 def update_game():
     if key_up == True and player.y > 0:
@@ -28,6 +33,7 @@ def update_game():
 
     enemy.update(ball.y)
     ball.update()
+    check_game()
     
     if check_collision_circle_rectangle((ball.x, ball.y), ball.radius,
                                         (player.x, player.y, player.width, player.height)):
@@ -48,8 +54,9 @@ def draw_game():
 
     # Display scores
     font = opencv.FONT_HERSHEY_SIMPLEX
-    opencv.putText(scene, "0", (screen_width // 4 - score_size // 4, score_margin * 4), font, 1.5, SNOW, 2)
-    opencv.putText(scene, "0", (3 * screen_width // 4 - score_size // 4, score_margin * 4), font, 1.5, SNOW, 2)
+
+    opencv.putText(scene, str(ball.player_score), (screen_width // 4 - score_size // 4, score_margin * 4), font, 1.5, SNOW, 2)
+    opencv.putText(scene, str(ball.enemy_score), (3 * screen_width // 4 - score_size // 4, score_margin * 4), font, 1.5, SNOW, 2)
 
     return scene
 
