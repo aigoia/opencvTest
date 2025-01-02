@@ -1,4 +1,5 @@
 import cv2 as opencv
+import asyncio
 import numpy
 from pynput.keyboard import Key, Listener  
 from setting import *
@@ -19,12 +20,11 @@ def init_game():
     opencv.resizeWindow(game_name, screen_width, screen_height)
 
 def update_game():
-    if (key_up == True):
-        player.move_up 
-        print(player.y)
-    if (key_down == True):
-        player.move_down
-        print(player.y)
+    if key_up == True and player.y > 0:
+        player.y = player.y - player.speed
+    if key_down == True and player.y + player.height < screen_height:
+        player.y = player.y + player.speed
+
     enemy.update(ball.y)
     ball.update()
 
@@ -51,21 +51,19 @@ def on_press(key):
     global key_out
     
     key_up = key == Key.up
-    key_down = key == key_down 
-        
-    key_out = key  == Key.esc
+    key_down = key == Key.down
 
-def main():
+async def main():
     init_game()
     
     with Listener(on_press=on_press) as listener:
         while True:
-            key = opencv.waitKey(delay)
+            key = opencv.waitKey(delay) & KEY_MASK
 
             update_game()
             scene = draw_game()
             
-            if key_out == True:
+            if key == KEY_ESC:
                 break
 
             opencv.imshow(game_name, scene)
@@ -73,4 +71,4 @@ def main():
     opencv.destroyAllWindows()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

@@ -9,6 +9,8 @@ init_count = 3
 # Key codes
 KEY_MASK = 0xFF
 KEY_ESC = 27
+KEY_UP = ord('i')
+KEY_DOWN =  ord('k')
 
 # Colors RGB → BGR
 MINT = (204, 209, 72)    
@@ -26,6 +28,6 @@ paddle_height = 120
 ball_size = 12
 
 # Speeds
-player_speed = 24
+player_speed = 8
 cpu_speed = 6
 ball_speed = 7
