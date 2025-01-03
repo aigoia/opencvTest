@@ -56,6 +56,7 @@ def update_game():
     if check_collision_circle_rectangle((ball.x, ball.y), ball.radius,
                                         (enemy.x, enemy.y, enemy.width, enemy.height)):
         ball.speed_x = ball.speed_x * -1
+        
 
 def draw_pause():
     # Create scene background
@@ -117,7 +118,6 @@ async def main():
     with Listener(on_press=on_press, on_release=on_release) as listener:
         while True:
             key = opencv.waitKey(delay) & KEY_MASK
-
             update_game()
             scene = draw_game()
             
