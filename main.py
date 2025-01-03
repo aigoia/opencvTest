@@ -7,7 +7,6 @@ from paddle import Paddle
 from enemy_paddle import EnemyPaddle
 from ball import Ball
 from helper import *
-from enum import Enum
 
 game_state = {"init": False}
 key_state = {"up": False, "down": False}
