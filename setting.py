@@ -14,6 +14,7 @@ KEY_SPACE = 32
 KEY_ENTER = 13
 KEY_UP = ord('i')
 KEY_DOWN =  ord('k')
+KEY_NONE = 255
 
 # Colors RGB → BGR
 MINT = (204, 209, 72)    

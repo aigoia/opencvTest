@@ -10,8 +10,7 @@ from ball import Ball
 from helper import *
 
 init_done = False
-key_up = False
-key_down = False
+key_states = {"up": False, "down": False}
 
 ball = Ball(screen_width // 2, screen_height // 2, ball_size, ball_speed, ball_speed)
 player = Paddle(screen_width - paddle_width - paddle_margin, (screen_height - paddle_height) // 2, paddle_width, paddle_height, player_speed)
@@ -43,9 +42,9 @@ def check_game():
         pass
 
 def update_game():
-    if key_up == True and player.y > 0:
+    if key_states["up"] == True and player.y > 0:
         player.y = player.y - player.speed
-    if key_down == True and player.y + player.height < screen_height:
+    if key_states["down"] == True and player.y + player.height < screen_height:
         player.y = player.y + player.speed
 
     enemy.update(ball.y)
@@ -92,22 +91,36 @@ def draw_game():
     return scene
     
 def on_press(key):
-    global key_up 
-    global key_down
-    
-    if key == Key.up:
-        key_up = True
-        key_down = False
-    if key == Key.down:
-        key_down = True
-        key_up = False
+    try:
+        if key == Key.up:
+            key_states["up"] = True
+            key_states["down"] = False
+        if key == Key.down:
+            key_states["down"] = True
+            key_states["up"] = False
+
+    except AttributeError:
+        pass
+
+def on_release(key):
+    try:
+        if key == Key.up:
+            key_states["up"] = False
+        if key == Key.down:
+            key_states["down"] = False
+
+    except AttributeError:
+        pass
 
 async def main():
     global key_up, key_down
     init_game()
+    # move_more = 0
     
     # Game loop
-    with Listener(on_press=on_press) as listener:
+    with Listener(on_press=on_press, on_release=on_release) as listener:
+        listener.join()
+        
         while True:
             key = opencv.waitKey(delay) & KEY_MASK
 
@@ -117,13 +130,6 @@ async def main():
             if key == KEY_ESC:
                 sys.exit()
             
-            if key == KEY_UP:
-                key_up = True
-                key_down = False
-            if key == KEY_DOWN:
-                key_down = True
-                key_up = False
-                
             opencv.imshow(game_name, scene)
     
     sys.exit()
