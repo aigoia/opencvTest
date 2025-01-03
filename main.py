@@ -38,7 +38,6 @@ def pause_scene():
 def check_game():    
     if  ball.check_out_of_bounds():
         pause_scene()
-        pass
 
 def update_game():
     if key_state["up"] == True and player.y > 0:
