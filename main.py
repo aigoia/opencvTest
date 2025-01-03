@@ -89,26 +89,18 @@ def draw_game():
     return scene
     
 def on_press(key):
-    try:
-        if key == Key.up:
-            key_state["up"] = True
-            key_state["down"] = False
-        if key == Key.down:
-            key_state["down"] = True
-            key_state["up"] = False
-
-    except AttributeError:
-        pass
-
+    if key == Key.up:
+        key_state["up"] = True
+        key_state["down"] = False
+    if key == Key.down:
+        key_state["down"] = True
+        key_state["up"] = False
+        
 def on_release(key):
-    try:
-        if key == Key.up:
-            key_state["up"] = False
-        if key == Key.down:
-            key_state["down"] = False
-
-    except AttributeError:
-        pass
+    if key == Key.up:
+        key_state["up"] = False
+    if key == Key.down:
+        key_state["down"] = False
 
 async def main():
     init_game()
@@ -116,13 +108,10 @@ async def main():
     # Game loop
     with Listener(on_press=on_press, on_release=on_release) as listener:
         while True:
-            key = opencv.waitKey(delay) & KEY_MASK
+            opencv.waitKey(delay) & KEY_MASK
             
             update_game()
             scene = draw_game()
-            
-            if key == KEY_ESC:
-                sys.exit()
             
             opencv.imshow(game_name, scene)
     
