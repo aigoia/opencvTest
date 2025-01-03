@@ -32,6 +32,6 @@ paddle_height = 120
 ball_size = 12
 
 # Speeds
-player_speed = 10
+player_speed = 12
 cpu_speed = 6
 ball_speed = 7
