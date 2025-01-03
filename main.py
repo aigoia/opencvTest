@@ -9,8 +9,8 @@ from enemy_paddle import EnemyPaddle
 from ball import Ball
 from helper import *
 
-init_done = False
-key_states = {"up": False, "down": False}
+game_state = {"init": False}
+key_state = {"up": False, "down": False}
 
 ball = Ball(screen_width // 2, screen_height // 2, ball_size, ball_speed, ball_speed)
 player = Paddle(screen_width - paddle_width - paddle_margin, (screen_height - paddle_height) // 2, paddle_width, paddle_height, player_speed)
@@ -21,8 +21,7 @@ def init_game():
     opencv.resizeWindow(game_name, screen_width, screen_height)
     
     pause_scene()
-    global init_done
-    init_done = True
+    game_state["init"] = True
     
 def pause_scene():
     while True:
@@ -42,9 +41,9 @@ def check_game():
         pass
 
 def update_game():
-    if key_states["up"] == True and player.y > 0:
+    if key_state["up"] == True and player.y > 0:
         player.y = player.y - player.speed
-    if key_states["down"] == True and player.y + player.height < screen_height:
+    if key_state["down"] == True and player.y + player.height < screen_height:
         player.y = player.y + player.speed
 
     enemy.update(ball.y)
@@ -65,8 +64,7 @@ def draw_pause():
     font = opencv.FONT_HERSHEY_SIMPLEX
     opencv.putText(scene, pause_string, (screen_width // 2 - score_margin * 4, screen_height // 2 - score_margin // 2), font, 1.5, MINT, 2)
 
-    global init_done
-    if init_done:
+    if game_state["init"]:
         opencv.putText(scene, str(ball.player_score), (screen_width // 4 - score_size // 4, score_margin * 4), font, 1.5, MINT, 2)
         opencv.putText(scene, str(ball.enemy_score), (3 * screen_width // 4 - score_size // 4, score_margin * 4), font, 1.5, MINT, 2)
     
@@ -93,11 +91,11 @@ def draw_game():
 def on_press(key):
     try:
         if key == Key.up:
-            key_states["up"] = True
-            key_states["down"] = False
+            key_state["up"] = True
+            key_state["down"] = False
         if key == Key.down:
-            key_states["down"] = True
-            key_states["up"] = False
+            key_state["down"] = True
+            key_state["up"] = False
 
     except AttributeError:
         pass
@@ -105,9 +103,9 @@ def on_press(key):
 def on_release(key):
     try:
         if key == Key.up:
-            key_states["up"] = False
+            key_state["up"] = False
         if key == Key.down:
-            key_states["down"] = False
+            key_state["down"] = False
 
     except AttributeError:
         pass
@@ -117,7 +115,6 @@ async def main():
     
     # Game loop
     with Listener(on_press=on_press, on_release=on_release) as listener:
-    
         while True:
             key = opencv.waitKey(delay) & KEY_MASK
 
