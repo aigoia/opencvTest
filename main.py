@@ -108,10 +108,13 @@ async def main():
     # Game loop
     with Listener(on_press=on_press, on_release=on_release) as listener:
         while True:
-            opencv.waitKey(delay) & KEY_MASK
+            key = opencv.waitKey(delay) & KEY_MASK
             
             update_game()
             scene = draw_game()
+            
+            if key == KEY_ESC:
+                sys.exit()
             
             opencv.imshow(game_name, scene)
     
