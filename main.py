@@ -113,7 +113,6 @@ def on_release(key):
         pass
 
 async def main():
-    global key_up, key_down
     init_game()
     
     # Game loop
