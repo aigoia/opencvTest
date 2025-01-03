@@ -115,7 +115,6 @@ def on_release(key):
 async def main():
     global key_up, key_down
     init_game()
-    # move_more = 0
     
     # Game loop
     with Listener(on_press=on_press, on_release=on_release) as listener:
