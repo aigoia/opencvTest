@@ -2,6 +2,7 @@ import cv2 as opencv
 import asyncio
 import numpy
 import sys
+from pynput.keyboard import Key, Listener  
 from setting import *
 from paddle import Paddle
 from enemy_paddle import EnemyPaddle
@@ -90,29 +91,40 @@ def draw_game():
 
     return scene
     
-async def main():
-    global key_up
+def on_press(key):
+    global key_up 
     global key_down
+    
+    if key == Key.up:
+        key_up = True
+        key_down = False
+    if key == Key.down:
+        key_down = True
+        key_up = False
+
+async def main():
+    global key_up, key_down
     init_game()
     
     # Game loop
-    while True:
-        key = opencv.waitKey(delay) & KEY_MASK
+    with Listener(on_press=on_press) as listener:
+        while True:
+            key = opencv.waitKey(delay) & KEY_MASK
 
-        update_game()
-        scene = draw_game()
-        
-        if key == KEY_ESC:
-            sys.exit()
-        
-        if key == KEY_UP:
-            key_up = True
-            key_down = False
-        if key == KEY_DOWN:
-            key_down = True
-            key_up = False
+            update_game()
+            scene = draw_game()
             
-        opencv.imshow(game_name, scene)
+            if key == KEY_ESC:
+                sys.exit()
+            
+            if key == KEY_UP:
+                key_up = True
+                key_down = False
+            if key == KEY_DOWN:
+                key_down = True
+                key_up = False
+                
+            opencv.imshow(game_name, scene)
     
     sys.exit()
 
