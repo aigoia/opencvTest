@@ -41,7 +41,6 @@ Once activated, your terminal prompt will change to include the virtual environm
 ### Requirements
 
     opencv-python: For computer vision tasks.
-    asyncio: For asynchronous I/O operations.
     numpy: For numerical computations.
     pynput: For controlling and monitoring input devices.
 
@@ -50,10 +49,6 @@ Once activated, your terminal prompt will change to include the virtual environm
 Install opencv-python:
 
     pip install opencv-python
-
-Install asyncio:
-
-    pip install asyncio
 
 Install numpy:
 
