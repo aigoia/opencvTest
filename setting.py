@@ -5,7 +5,7 @@ screen_width = 1200
 screen_height = 800
 count_time = 0.3
 init_count = 3
-pause_string = "PAUSE"
+pause_string = "Enter"
 
 # Key codes
 KEY_MASK = 0xFF
