@@ -7,6 +7,7 @@ from paddle import Paddle
 from enemy_paddle import EnemyPaddle
 from ball import Ball
 from helper import *
+from enum import Enum
 
 game_state = {"init": False}
 key_state = {"up": False, "down": False}
@@ -61,6 +62,7 @@ def draw_pause():
     scene = numpy.full((screen_height, screen_width, 3), SNOW, dtype=numpy.uint8) # uint8 is 0 ~ 255
     
     font = opencv.FONT_HERSHEY_SIMPLEX
+        
     opencv.putText(scene, pause_string, (screen_width // 2 - score_margin * 4, screen_height // 2 - score_margin // 2), font, 1.5, MINT, 2)
 
     if game_state["init"]:
